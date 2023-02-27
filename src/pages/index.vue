@@ -3,12 +3,12 @@ defineOptions({
   name: 'IndexPage',
 })
 const user = useUserStore()
-const name = $ref(user.savedName)
+const queryString = $ref(user.queryString)
 
 const router = useRouter()
 const go = () => {
-  if (name)
-    router.push(`/hi/${encodeURIComponent(name)}`)
+  if (queryString)
+    router.push(`/search`)
 }
 
 const { t } = useI18n()
@@ -31,8 +31,8 @@ const { t } = useI18n()
     <div py-4 />
 
     <TheInput
-      v-model="name"
-      placeholder="What's your name?"
+      v-model="queryString"
+      placeholder="Inpput your query"
       autocomplete="false"
       @keydown.enter="go"
     />
@@ -41,7 +41,7 @@ const { t } = useI18n()
     <div>
       <button
         btn m-3 text-sm
-        :disabled="!name"
+        :disabled="!queryString"
         @click="go"
       >
         {{ t('button.go') }}

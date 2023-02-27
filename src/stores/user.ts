@@ -7,6 +7,9 @@ export const useUserStore = defineStore('user', () => {
   const savedName = ref('')
   const previousNames = ref(new Set<string>())
 
+  const queryString = ref('')
+  const wikiPageInfo = ref(SearchResultModule)
+
   const usedNames = computed(() => Array.from(previousNames.value))
   const otherNames = computed(() => usedNames.value.filter(name => name !== savedName.value))
 
@@ -27,6 +30,8 @@ export const useUserStore = defineStore('user', () => {
     setNewName,
     otherNames,
     savedName,
+    queryString,
+    wikiPageInfo,
   }
 })
 
