@@ -16,8 +16,8 @@ watchEffect(() => {
     id: Number(props.name),
     lang: props.lang,
   }).then((response) => {
-    baikeUrl.value = `https://baike.baidu.com/item/${response.data.data.title}`
-    hudongUrl.value = `https://www.hudong.com/search?keyword=${response.data.data.title}`
+    baikeUrl.value = `https://baike.baidu.com/item/${response.data.data?.zh_title || response.data.data.title}`
+    hudongUrl.value = `https://www.hudong.com/search?keyword=${response.data.data?.zh_title || response.data.data.title}`
     docItem.value = response.data.data
   })
 })
@@ -36,6 +36,9 @@ onMounted(() => {
     </div>
     <div v-if="docItem?.redirect_from">
       （重定向自 {{ docItem?.redirect_from }} ）
+    </div>
+    <div v-if="docItem?.zh_title">
+      （中文名 {{ docItem?.zh_title }} ）
     </div>
 
     <el-tag

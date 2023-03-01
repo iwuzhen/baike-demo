@@ -9,4 +9,5 @@ export interface SearchResultModule {
   lang?: string
   abstract?: string
   redirect_from?: string
+  zh_title?: string
 }

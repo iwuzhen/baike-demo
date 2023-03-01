@@ -4,7 +4,7 @@ const router = useRouter()
 
 <template>
   <nav flex>
-    <div inline-block ml-0>
+    <div inline-block mt-0 mb-10>
       <img
         src="/metapedia-head.svg" alt="metapedia" w-40 ma-auto ma-a @click="
           router.push('/')"
