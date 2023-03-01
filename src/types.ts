@@ -3,6 +3,10 @@ import { type ViteSSGContext } from 'vite-ssg'
 export type UserModule = (ctx: ViteSSGContext) => void
 
 export interface SearchResultModule {
-    _id: number
-    title:string
+  id?: number
+  title?: string
+  category?: [string]
+  lang?: string
+  abstract?: string
+  redirect_from?: string
 }

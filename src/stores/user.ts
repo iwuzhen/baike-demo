@@ -1,5 +1,7 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
+import type { SearchResultModule } from '~/types'
+
 export const useUserStore = defineStore('user', () => {
   /**
    * Current name of the user.
@@ -8,7 +10,8 @@ export const useUserStore = defineStore('user', () => {
   const previousNames = ref(new Set<string>())
 
   const queryString = ref('')
-  const wikiPageInfo = ref(SearchResultModule)
+
+  const wikiPageInfo = ref<SearchResultModule>({})
 
   const usedNames = computed(() => Array.from(previousNames.value))
   const otherNames = computed(() => usedNames.value.filter(name => name !== savedName.value))

@@ -1,24 +1,13 @@
 <script setup lang="ts">
 import axios from 'axios'
-
-// import { useAxios } from '@vueuse/integrations/useAxios'
-
-// const { data, isFinished } = useAxios('https://api.nikepai.com:10444/v/2.0/baike_demo/query', { method: 'POST' }, {
-//   immediate: true,
-// })
-
-defineOptions({
-  name: 'IndexPage',
-})
 const user = useUserStore()
 const queryString = $ref(user.queryString)
 
 const router = useRouter()
-const handleSelect = (item) => {
-  console.log(item)
+const handleSelect = (item: any) => {
   user.wikiPageInfo = item
   if (queryString)
-    router.push('/wiki/'+item.title)
+    router.push(`/wiki/${item.lang}/${item.id}`)
 }
 
 const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
@@ -36,14 +25,9 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
   <el-autocomplete
     v-model="queryString"
     :fetch-suggestions="querySearchAsync"
-    placeholder="Please input"
+    placeholder="Search"
     value-key="title"
     @select="handleSelect"
     @handleKeyEnter="handleSelect"
   />
 </template>
-
-<route lang="yaml">
-meta:
-  layout: home
-</route>

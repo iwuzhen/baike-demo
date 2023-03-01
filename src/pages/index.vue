@@ -1,51 +1,33 @@
 <script setup lang="ts">
+// import axios from 'axios'
+
+import { useAxios } from '@vueuse/integrations/useAxios'
+const router = useRouter()
+
+const { data } = useAxios('https://api.nikepai.com:10444/v/2.0/baike_demo/lately_search', { method: 'Get' }, {
+  immediate: true,
+})
+
 defineOptions({
   name: 'IndexPage',
 })
-const user = useUserStore()
-const queryString = $ref(user.queryString)
 
-const router = useRouter()
-const go = () => {
-  if (queryString)
-    router.push(`/search`)
+const historyClick = (item: any) => {
+  router.push(`/wiki/${item.lang}/${item.id}`)
 }
-
-const { t } = useI18n()
 </script>
 
 <template>
-  <div>
-    <div text-4xl>
-      <div i-carbon-campsite inline-block />
-    </div>
-    <p>
-      <a rel="noreferrer" href="https://github.com/antfu/vitesse" target="_blank">
-        Vitesse
-      </a>
+  <div mt-50 mb-60>
+    <p text-4xl mb-10>
+      <!-- BaiKe Search Engine -->
+      <img src="/metapedia-black.svg" alt="" w-100 ma-auto>
     </p>
-    <p>
-      <em text-sm opacity-75>{{ t('intro.desc') }}</em>
-    </p>
-
-    <div py-4 />
-
-    <TheInput
-      v-model="queryString"
-      placeholder="Inpput your query"
-      autocomplete="false"
-      @keydown.enter="go"
-    />
-    <label class="hidden" for="input">{{ t('intro.whats-your-name') }}</label>
-
-    <div>
-      <button
-        btn m-3 text-sm
-        :disabled="!queryString"
-        @click="go"
-      >
-        {{ t('button.go') }}
-      </button>
+    <the-search class="w-xl" />
+    <div mt-30>
+      <el-card v-for="item in data?.data" :key="item" shadow="hover" w-auto mr-2 inline-block @click="historyClick(item)">
+        {{ item.title }}
+      </el-card>
     </div>
   </div>
 </template>

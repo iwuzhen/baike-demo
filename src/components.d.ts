@@ -8,15 +8,17 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ElAutocomplete: typeof import('element-plus/es')['ElAutocomplete']
-    ElButton: typeof import('element-plus/es')['ElButton']
+    ElCard: typeof import('element-plus/es')['ElCard']
+    ElTabPane: typeof import('element-plus/es')['ElTabPane']
+    ElTabs: typeof import('element-plus/es')['ElTabs']
+    ElTag: typeof import('element-plus/es')['ElTag']
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SearchResult: typeof import('./components/SearchResult.vue')['default']
-    SeqrchResult: typeof import('./components/SeqrchResult.vue')['default']
     TheCounter: typeof import('./components/TheCounter.vue')['default']
     TheFooter: typeof import('./components/TheFooter.vue')['default']
+    TheHeader: typeof import('./components/TheHeader.vue')['default']
     TheInput: typeof import('./components/TheInput.vue')['default']
-    TheSearchResult: typeof import('./components/TheSearchResult.vue')['default']
+    TheSearch: typeof import('./components/TheSearch.vue')['default']
   }
 }
