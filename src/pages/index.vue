@@ -26,7 +26,7 @@ const historyClick = (item: any) => {
     <the-search class="w-xl" />
     <div mt-30>
       <el-card v-for="item in data?.data" :key="item" shadow="hover" w-auto mr-2 inline-block @click="historyClick(item)">
-        {{ item.title }}
+        {{ item.title.replaceAll('_', ' ') }}
       </el-card>
     </div>
   </div>

@@ -9,9 +9,11 @@ const activeName = ref('first')
 const baikeUrl = ref('')
 const hudongUrl = ref('')
 const docItem = ref<SearchResultModule>()
+const Summary = ref('')
 
 watchEffect(() => {
   user.setNewName(props.name)
+  Summary.value = ''
   axios.post('https://api.nikepai.com:10444/v/2.0/baike_demo/page', {
     id: Number(props.name),
     lang: props.lang,
@@ -19,6 +21,13 @@ watchEffect(() => {
     baikeUrl.value = `https://baike.baidu.com/item/${response.data.data?.zh_title || response.data.data.title}`
     hudongUrl.value = `https://www.hudong.com/search?keyword=${response.data.data?.zh_title || response.data.data.title}`
     docItem.value = response.data.data
+
+    axios.post('https://api.nikepai.com:10444/v/2.0/wikipedia/summary', {
+      title: docItem.value?.title,
+      lang: props.lang,
+    }).then((response) => {
+      Summary.value = response.data
+    })
   })
 })
 
@@ -31,11 +40,11 @@ onMounted(() => {
   <div>
     <div>
       <p text-4xl>
-        {{ docItem?.title }}
+        {{ docItem?.title?.replaceAll('_', ' ') }}
       </p>
     </div>
     <div v-if="docItem?.redirect_from">
-      （重定向自 {{ docItem?.redirect_from }} ）
+      （重定向自 {{ docItem?.redirect_from?.replaceAll('_', ' ') }} ）
     </div>
     <div v-if="docItem?.zh_title">
       （中文名 {{ docItem?.zh_title }} ）
@@ -45,9 +54,9 @@ onMounted(() => {
       v-for="item in docItem?.category" :key="item"
       mb-1 ml-1
     >
-      {{ item }}
+      {{ item?.replaceAll('_', ' ') }}
     </el-tag>
-
+    <article>{{ Summary }}</article>
     <el-tabs v-model="activeName" class="demo-tabs" style="width: 960px;" ma-a>
       <el-tab-pane label="百度百科" name="first">
         <iframe id="iframe" :src="baikeUrl" style="width: 1200px; height: 1000px;transform-origin: left top; transform: scale(0.8, 0.8)" frameborder="0" />
