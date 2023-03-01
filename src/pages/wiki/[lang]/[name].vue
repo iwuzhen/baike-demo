@@ -45,12 +45,12 @@ onMounted(() => {
       {{ item }}
     </el-tag>
 
-    <el-tabs v-model="activeName" class="demo-tabs" style="width: 1000px;" ma-a>
+    <el-tabs v-model="activeName" class="demo-tabs" style="width: 960px;" ma-a>
       <el-tab-pane label="百度百科" name="first">
-        <iframe id="iframe" :src="baikeUrl" ma-a style="width: 1000px; height: 1000px;transform-origin: left top; transform: scale(0.8, 0.8)" frameborder="0" />
+        <iframe id="iframe" :src="baikeUrl" style="width: 1200px; height: 1000px;transform-origin: left top; transform: scale(0.8, 0.8)" frameborder="0" />
       </el-tab-pane>
       <el-tab-pane label="互动百科" name="second">
-        <iframe id="iframe" :src="hudongUrl" style="width: 1000px; height: 1000px;transform-origin: left top; transform: scale(0.8, 0.8)" frameborder="0" />
+        <iframe id="iframe" :src="hudongUrl" style="width: 1200px; height: 1000px;transform-origin: left top; transform: scale(0.8, 0.8)" frameborder="0" />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -59,6 +59,10 @@ onMounted(() => {
 <style>
 #testID {
     display: none;
+}
+
+.el-tab-pane {
+  width: 960px;
 }
 </style>
 
