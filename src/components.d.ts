@@ -21,5 +21,7 @@ declare module '@vue/runtime-core' {
     TheHeader: typeof import('./components/TheHeader.vue')['default']
     TheInput: typeof import('./components/TheInput.vue')['default']
     TheSearch: typeof import('./components/TheSearch.vue')['default']
+    TheSearchF: typeof import('./components/TheSearchF.vue')['default']
+    TheSearchk: typeof import('./components/TheSearchk.vue')['default']
   }
 }

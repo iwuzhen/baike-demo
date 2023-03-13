@@ -4,7 +4,7 @@
 import { useAxios } from '@vueuse/integrations/useAxios'
 const router = useRouter()
 
-const { data } = useAxios('https://api.nikepai.com:10444/v/2.0/baike_demo/lately_search', { method: 'Get' }, {
+const { data } = useAxios('https://api.nikepai.com:10444/v/2.0/metapedia/v1/lately_search', { method: 'Get' }, {
   immediate: true,
 })
 
@@ -13,7 +13,7 @@ defineOptions({
 })
 
 const historyClick = (item: any) => {
-  router.push(`/wiki/${item.lang}/${item.id}`)
+  router.push(`/wiki/${item.lang}/${item.title}`)
 }
 </script>
 
