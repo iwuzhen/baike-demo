@@ -76,7 +76,7 @@ onMounted(() => {
     <div v-if="docItem?.lang === 'en' && docItem?.zh_title">
       （中文名 {{ ConvertTitle(docItem?.zh_title) }} ）
     </div>
-    <div v-if="docItem?.zh_redirect">
+    <div v-if="docItem?.zh_redirect?.[0] !== undefined">
       <span>其他中文名</span>
       <el-tag
         v-for="item in DuplicateRedirect(docItem?.zh_redirect)" :key="item"
