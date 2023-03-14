@@ -168,7 +168,7 @@ onMounted(() => {
     <div v-if="docItem?.lang === 'en' && docItem?.zh_title">
       （中文名 {{ ConvertTitle(docItem?.zh_title) }} ）
     </div>
-    <div v-if="docItem?.zh_redirect?.[0] !== undefined">
+    <div v-if="docItem?.zh_redirect?.[0] !== undefined" mt-2>
       <span>其他中文名</span>
       <el-tag
         v-for="item in DuplicateRedirect(docItem?.zh_redirect)" :key="item"
@@ -178,7 +178,7 @@ onMounted(() => {
       </el-tag>
     </div>
 
-    <div v-if="docItem?.en_redirect?.[0] !== undefined ">
+    <div v-if="docItem?.en_redirect?.[0] !== undefined " mt-2>
       <span>其他英文名</span>
       <el-tag
         v-for="item in DuplicateRedirect(docItem?.en_redirect)" :key="item"
@@ -188,30 +188,30 @@ onMounted(() => {
       </el-tag>
     </div>
 
-    <div v-if="docItem?.zh_category?.[0] !== undefined ">
+    <div v-if="docItem?.zh_category?.[0] !== undefined " mt-2>
       <span>中文分类({{ docItem?.zh_category.length }})</span>
       <el-tag
         v-for="item in docItem?.zh_category" :key="item"
         mb-1
-        ml-1 type="success"
+        ml-1
         @click="router.push(`/category/zh/${item}`)"
       >
         {{ T2S(item) }}
       </el-tag>
     </div>
 
-    <div v-if="docItem?.en_category?.[0] !== undefined ">
+    <div v-if="docItem?.en_category?.[0] !== undefined " mt-2>
       <span>英文分类({{ docItem?.en_category.length }})</span>
       <el-tag
         v-for="item in docItem?.en_category" :key="item"
-        mb-1 type="success"
+        mb-1
         ml-1 @click="router.push(`/category/en/${item}`)"
       >
         {{ T2S(item) }}
       </el-tag>
     </div>
 
-    <el-tabs v-model="activeName" class="demo-tabs" style="width: 960px;" ma-a>
+    <el-tabs v-model="activeName" class="demo-tabs" style="width: 960px;" ma-a mt-5>
       <el-tab-pane label="wikipedia" name="first">
         <article flex-inline>
           <p text-left>
