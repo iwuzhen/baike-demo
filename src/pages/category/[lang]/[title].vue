@@ -42,12 +42,12 @@ watchEffect(() => {
 <template>
   <div>
     <div>
-      <p text-4xl>
+      <p v-if="PageObject?.title !== undefined " text-4xl>
         {{ ConvertTitle(PageObject?.title) }}
       </p>
     </div>
-    <div v-if="PageObject?.in.length > 0">
-      <span>父类</span>
+    <div v-if="PageObject?.in?.[0] !== undefined">
+      <span>父类({{ PageObject?.in.length }})</span>
       <el-tag
         v-for="item in PageObject?.in" :key="item"
         mb-1 ml-1 type="success"
@@ -57,8 +57,8 @@ watchEffect(() => {
       </el-tag>
     </div>
 
-    <div v-if="PageObject?.out.length > 0">
-      <span>子类</span>
+    <div v-if="PageObject?.out?.[0] !== undefined">
+      <span>子类({{ PageObject?.out.length }})</span>
       <el-tag
         v-for="item in PageObject?.out" :key="item"
         mb-1 type="success"
@@ -68,15 +68,17 @@ watchEffect(() => {
       </el-tag>
     </div>
 
-    <div v-if="PageObject?.page.length > 0">
-      <span>page</span>
+    <div v-if="PageObject?.page?.[0] !== undefined">
+      <span>page({{ PageObject?.page.length }})</span>
       <el-tag
-        v-for="item in PageObject?.page" :key="item"
-        mb-1 ml-1
+        v-for="item in PageObject?.page.slice(0, 100)"
+        :key="item" mb-1
+        ml-1
         @click="router.push(`/wiki/${PageObject.lang}/${item}`)"
       >
         {{ T2S(item) }}
       </el-tag>
+      <span v-if="PageObject?.page.length > 100"><el-tag ml-1>more ......</el-tag></span>
     </div>
   </div>
 </template>

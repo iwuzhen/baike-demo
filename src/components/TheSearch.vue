@@ -76,11 +76,6 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
   height: 69px;
 }
 
-.my-autocomplete {
-  /* max-height: 800px;
-  height: 800px; */
-}
-
 .el-autocomplete-suggestion li{
   padding-left: 0 !important;
   padding-top: 0;
