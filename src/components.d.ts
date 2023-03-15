@@ -9,7 +9,9 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ElAutocomplete: typeof import('element-plus/es')['ElAutocomplete']
     ElCard: typeof import('element-plus/es')['ElCard']
-    ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElCollapse: typeof import('element-plus/es')['ElCollapse']
+    ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
+    ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
@@ -22,6 +24,5 @@ declare module '@vue/runtime-core' {
     TheInput: typeof import('./components/TheInput.vue')['default']
     TheSearch: typeof import('./components/TheSearch.vue')['default']
     TheSearchF: typeof import('./components/TheSearchF.vue')['default']
-    TheSearchk: typeof import('./components/TheSearchk.vue')['default']
   }
 }

@@ -3,6 +3,8 @@ import axios from 'axios'
 const user = useUserStore()
 const queryString = $ref(user.queryString)
 
+const suggestion = ref<any>([])
+
 const router = useRouter()
 const handleSelect = (item: any) => {
   user.wikiPageInfo = item
@@ -10,7 +12,13 @@ const handleSelect = (item: any) => {
     router.push(`/wiki/${item.lang}/${item.title}`)
 }
 
+const handleEnter = () => {
+  if (suggestion.value?.length > 0)
+    handleSelect(suggestion.value[0])
+}
+
 const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
+  suggestion.value = []
   if (queryString.length < 1)
     return
 
@@ -19,15 +27,15 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
     namespace: 0,
     lang: 'zh',
   }).then((response) => {
+    suggestion.value = response.data.data
     cb(response.data.data)
   })
 }
-
-// const searchTerm = ref('')
 </script>
 
 <template>
   <el-autocomplete
+    ref="autocompleteRef"
     v-model="queryString"
     :fetch-suggestions="querySearchAsync"
     clearable
@@ -35,6 +43,7 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
     value-key="title"
     popper-class="my-autocomplete"
     @select="handleSelect"
+    @keyup.enter="handleEnter"
   >
     <template #suffix>
       <div i-carbon-search />

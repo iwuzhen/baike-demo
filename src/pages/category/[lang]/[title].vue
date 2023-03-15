@@ -47,7 +47,7 @@ watchEffect(() => {
       </p>
     </div>
     <div v-if="PageObject?.in?.[0] !== undefined" mt-5>
-      <span>父类({{ PageObject?.in.length }})</span>
+      <span>parent class({{ PageObject?.in.length }})</span>
       <el-tag
         v-for="item in PageObject?.in" :key="item"
         mb-1 ml-1
@@ -58,7 +58,7 @@ watchEffect(() => {
     </div>
 
     <div v-if="PageObject?.out?.[0] !== undefined" mt-2>
-      <span>子类({{ PageObject?.out.length }})</span>
+      <span>child class({{ PageObject?.out.length }})</span>
       <el-tag
         v-for="item in PageObject?.out" :key="item"
         mb-1
@@ -69,7 +69,7 @@ watchEffect(() => {
     </div>
 
     <div v-if="PageObject?.page?.[0] !== undefined" mt-5>
-      <span>page({{ PageObject?.page.length }})</span>
+      <span>entity({{ PageObject?.page.length }})</span>
       <el-tag
         v-for="item in PageObject?.page.slice(0, 100)"
         :key="item" mb-1

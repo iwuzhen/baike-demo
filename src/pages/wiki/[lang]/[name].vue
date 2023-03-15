@@ -7,12 +7,12 @@ const user = useUserStore()
 const router = useRouter()
 
 const activeName = ref('first')
+const activeNames = ref(['1', '2', '3'])
 
-const hudongUrl = ref('')
 const docItem = ref<SearchResultModule>()
 const PageDetail = ref<any>({})
 
-const baiduKey = computedAsync(async () => {
+const baikeKey = computedAsync(async () => {
   if (docItem.value?.title !== undefined) {
     const titleSet = new Set<string>()
     const titles = [docItem.value.title]
@@ -105,10 +105,68 @@ const DuplicateRedirect = (nameArray: string[] | undefined): string[] => {
   return Array.from(set)
 }
 
+const htmlStr = computed(() => {
+  if (PageDetail.value?.links?.internal) {
+    const plaintext = PageDetail.value?.plaintext.replace(/\n/g, '<br>').replace('（）', '').replace('()', '')
+    const links = PageDetail.value?.links?.internal.sort((a: any, b: any) => {
+      if (!b.text)
+        return -1
+      if (!a.text)
+        return 1
+
+      return b.text.length - a.text.length
+    })
+    // initialize array of highlighted ranges
+    const ranges: any[] = []
+
+    // loop through words and highlight non-overlapping ones
+    for (const linkItem of links) {
+      const mtStr = linkItem.text || linkItem.page
+      let startIndex = 0
+      while (startIndex >= 0) {
+        startIndex = plaintext.indexOf(mtStr, startIndex)
+        if (startIndex >= 0) {
+          const endIndex = startIndex + mtStr.length
+          if (!ranges.some(range => startIndex < range.end && endIndex > range.start))
+            ranges.push({ start: startIndex, end: endIndex, linkItem })
+
+          startIndex = endIndex
+        }
+      }
+    }
+
+    // sort ranges by start position (ascending)
+    ranges.sort((a, b) => a.start - b.start)
+
+    // build HTML with highlighted spans
+    let result = ''
+    let lastIndex = 0
+    for (const range of ranges) {
+      result += plaintext.substring(lastIndex, range.start)
+      // result += `<span class="highlight">${plaintext.substring(range.start, range.end)}</span>`
+      result += `<a href="/wiki/${props.lang}/${range.linkItem.page}">${plaintext.substring(range.start, range.end)}</a>`
+      lastIndex = range.end
+    }
+    result += plaintext.substring(lastIndex)
+    return result
+
+    // console.log(links)
+    // for (const linkItem of links) {
+    //   if (linkItem.text)
+    //     plaintext = plaintext.replaceAll(T2S(linkItem.text), `<a href="/wiki/${props.lang}/${linkItem.page}">${T2S(linkItem.text)}</a>`)
+    //   else if (linkItem.page)
+    //     plaintext = plaintext.replaceAll(T2S(linkItem.page), `<a href="/wiki/${props.lang}/${linkItem.page}">${T2S(linkItem.page)}</a>`)
+    // }
+    // // console.log(links)
+    // return plaintext
+  }
+  return ''
+})
+
 const currentIndex = ref(0)
 const currentImage = computed(() => {
   if (PageDetail.value?.images?.[currentIndex.value] !== undefined)
-    return `//wsrv.nl/?url=${PageDetail.value?.images[currentIndex.value].url}`
+    return `//wsrv.nl/?url=${PageDetail.value?.images[currentIndex.value]?.url}`
   return 'null'
 })
 
@@ -128,7 +186,7 @@ function loadNextImage() {
 }
 
 watchEffect(() => {
-  baiduKey.value = ''
+  baikeKey.value = ''
   user.setNewName(props.name)
   axios.post('https://api.nikepai.com:10444/v/2.0/metapedia/v1/page', {
     title: props.name.replaceAll(' ', '_'),
@@ -138,7 +196,6 @@ watchEffect(() => {
       router.push('/404')
       return
     }
-    hudongUrl.value = `https://www.hudong.com/search?keyword=${response.data.data?.zh_title || response.data.data.title}`
     docItem.value = response.data.data
     axios.post('https://api.nikepai.com:10444/v/2.0/metapedia/v1/wiki_page_detail', {
       id: docItem.value?.id,
@@ -156,77 +213,79 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="content">
     <div>
       <p text-4xl>
         {{ ConvertTitle(docItem?.title) }}
       </p>
     </div>
     <div v-if="docItem?.redirect_from">
-      （重定向自 {{ ConvertTitle(docItem?.redirect_from) }} ）
+      (redirect from {{ ConvertTitle(docItem?.redirect_from) }} )
     </div>
     <div v-if="docItem?.lang === 'en' && docItem?.zh_title">
-      （中文名 {{ ConvertTitle(docItem?.zh_title) }} ）
-    </div>
-    <div v-if="docItem?.zh_redirect?.[0] !== undefined" mt-2>
-      <span>其他中文名</span>
-      <el-tag
-        v-for="item in DuplicateRedirect(docItem?.zh_redirect)" :key="item"
-        mb-1 ml-1
-      >
-        {{ item }}
-      </el-tag>
+      (名字 {{ ConvertTitle(docItem?.zh_title) }} )
     </div>
 
-    <div v-if="docItem?.en_redirect?.[0] !== undefined " mt-2>
-      <span>其他英文名</span>
-      <el-tag
-        v-for="item in DuplicateRedirect(docItem?.en_redirect)" :key="item"
-        mb-1 ml-1
-      >
-        {{ item }}
-      </el-tag>
-    </div>
+    <el-collapse v-model="activeNames" text-left>
+      <el-collapse-item v-if="docItem?.zh_redirect?.[0] !== undefined " :title="`其他名字(${docItem?.zh_redirect.length})`" name="1">
+        <el-tag
+          v-for="item in DuplicateRedirect(docItem?.zh_redirect)" :key="item"
+          mb-1 ml-1
+        >
+          {{ item }}
+        </el-tag>
+      </el-collapse-item>
+      <el-collapse-item v-if="docItem?.en_redirect?.[0] !== undefined " :title="`other name(${docItem?.en_redirect.length})`" name="2">
+        <el-tag
+          v-for="item in DuplicateRedirect(docItem?.en_redirect)" :key="item"
+          mb-1 ml-1
+        >
+          {{ item }}
+        </el-tag>
+      </el-collapse-item>
+      <el-collapse-item v-if="docItem?.en_category?.[0] !== undefined " :title="`category(${docItem?.en_category.length})`" name="3">
+        <el-tag
+          v-for="item in docItem?.en_category" :key="item"
+          mb-1
+          ml-1
+          @click="router.push(`/category/en/${item}`)"
+        >
+          {{ T2S(item) }}
+        </el-tag>
+      </el-collapse-item>
 
-    <div v-if="docItem?.zh_category?.[0] !== undefined " mt-2>
-      <span>中文分类({{ docItem?.zh_category.length }})</span>
-      <el-tag
-        v-for="item in docItem?.zh_category" :key="item"
-        mb-1
-        ml-1
-        @click="router.push(`/category/zh/${item}`)"
-      >
-        {{ T2S(item) }}
-      </el-tag>
-    </div>
-
-    <div v-if="docItem?.en_category?.[0] !== undefined " mt-2>
-      <span>英文分类({{ docItem?.en_category.length }})</span>
-      <el-tag
-        v-for="item in docItem?.en_category" :key="item"
-        mb-1
-        ml-1 @click="router.push(`/category/en/${item}`)"
-      >
-        {{ T2S(item) }}
-      </el-tag>
-    </div>
+      <el-collapse-item v-if="docItem?.zh_category?.[0] !== undefined " :title="`分类(${docItem?.zh_category.length})`" name="4">
+        <el-tag
+          v-for="item in docItem?.zh_category" :key="item"
+          mb-1
+          ml-1
+          @click="router.push(`/category/zh/${item}`)"
+        >
+          {{ T2S(item) }}
+        </el-tag>
+      </el-collapse-item>
+    </el-collapse>
 
     <el-tabs v-model="activeName" class="demo-tabs" style="width: 960px;" ma-a mt-5>
       <el-tab-pane label="wikipedia" name="first">
         <article flex-inline>
-          <p text-left>
-            {{ PageDetail?.plaintext }}
-          </p>
+          <div text-left v-html="htmlStr" />
           <Transition name="slide-fade" :duration="550">
             <img v-if="PageDetail?.images?.[0] !== undefined" class="page-img" :src="currentImage" :alt="imgAlt" @error="loadNextImage">
           </Transition>
         </article>
       </el-tab-pane>
       <el-tab-pane label="百度百科" name="second" lazy>
-        <iframe v-if="baiduKey !== ''" id="iframe" :src="`https://baike.baidu.com/item/${baiduKey}`" style="width: 1200px; height: 1000px;transform-origin: left top; transform: scale(0.8, 0.8)" frameborder="0" />
+        <iframe v-if="baikeKey !== ''" id="iframe" :src="`https://baike.baidu.com/item/${baikeKey}`" style="width: 1200px; height: 1000px;transform-origin: left top; transform: scale(0.8, 0.8)" frameborder="0" />
+        <el-skeleton v-else :rows="10" animated />
       </el-tab-pane>
       <el-tab-pane label="互动百科" name="thread" lazy>
-        <iframe id="iframe" :src="hudongUrl" style="width: 1200px; height: 1000px;transform-origin: left top; transform: scale(0.8, 0.8)" frameborder="0" />
+        <iframe v-if="baikeKey !== ''" id="iframe" :src="`https://www.hudong.com/search?keyword=${baikeKey}`" style="width: 1200px; height: 1000px;transform-origin: left top; transform: scale(0.8, 0.8)" frameborder="0" />
+        <el-skeleton v-else :rows="10" animated />
+      </el-tab-pane>
+      <el-tab-pane label="360百科" name="fourth" lazy>
+        <iframe v-if="baikeKey !== ''" id="iframe" :src="`https://baike.so.com/search/?q=${baikeKey}`" style="width: 1200px; height: 1000px;transform-origin: left top; transform: scale(0.8, 0.8)" frameborder="0" />
+        <el-skeleton v-else :rows="10" animated />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -240,9 +299,27 @@ onMounted(() => {
 .el-tab-pane {
   width: 960px;
 }
+
+.content{
+  max-width: 960px;
+  margin: auto;
+}
+
 .page-img {
   max-width: 18rem;
   height: 100%;
+}
+article {
+  font-size: 0.938rem;
+  line-height: 1.6;
+}
+article a {
+  color: #0645ad; /* 设置文字颜色为黑色 */
+  text-decoration: none; /* 去掉下划线 */
+}
+
+article a:hover, article a:focus {
+  text-decoration:underline;
 }
 </style>
 

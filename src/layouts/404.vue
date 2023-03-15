@@ -12,7 +12,7 @@ const { t } = useI18n()
     <div>
       <button
         btn text-sm m="3 t8" @click="
-          router.push(`/`)"
+          router.go(-2)"
       >
         {{ t('button.back') }}
       </button>
