@@ -11,10 +11,14 @@ declare module '@vue/runtime-core' {
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCollapse: typeof import('element-plus/es')['ElCollapse']
     ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
+    ElRow: typeof import('element-plus/es')['ElRow']
     ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
+    ElTable: typeof import('element-plus/es')['ElTable']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
+    ElTree: typeof import('element-plus/es')['ElTree']
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -22,7 +26,12 @@ declare module '@vue/runtime-core' {
     TheFooter: typeof import('./components/TheFooter.vue')['default']
     TheHeader: typeof import('./components/TheHeader.vue')['default']
     TheInput: typeof import('./components/TheInput.vue')['default']
+    TheRelation: typeof import('./components/TheRelation.vue')['default']
+    TheRelationship: typeof import('./components/TheRelationship.vue')['default']
     TheSearch: typeof import('./components/TheSearch.vue')['default']
     TheSearchF: typeof import('./components/TheSearchF.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }
