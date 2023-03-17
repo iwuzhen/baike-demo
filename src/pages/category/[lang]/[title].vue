@@ -53,7 +53,12 @@ const pageChange = async (pageNumber: number) => {
         {{ ConvertTitle(PageObject?.title) }}
       </p>
     </div>
-    <TheRelation v-if="props.title" :model-value="props" />
+    <el-row>
+      <p>tree view</p>
+    </el-row>
+    <el-row>
+      <TheRelation v-if="props.title" :model-value="props" />
+    </el-row>
     <div v-if="PageObject?.in?.[0] !== undefined" mt-5>
       <span>parent class({{ PageObject?.in.length }})</span>
       <el-tag
