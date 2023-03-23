@@ -53,6 +53,9 @@ const pageChange = async (pageNumber: number) => {
         {{ ConvertTitle(PageObject?.title) }}
       </p>
     </div>
+
+    <CategoryShortestPath v-if="PageObject?.title !== undefined " :model-value="{ lang: props.lang, title: ConvertTitle(PageObject?.title) }" />
+
     <el-row>
       <p>tree view</p>
     </el-row>

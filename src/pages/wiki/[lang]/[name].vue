@@ -266,7 +266,7 @@ onMounted(() => {
       </el-collapse-item>
     </el-collapse>
 
-    <el-tabs v-model="activeName" class="demo-tabs" style="width: 960px;" ma-a mt-5>
+    <el-tabs v-model="activeName" class="demo-tabs" style="max-width: 960px;" ma-a mt-5>
       <el-tab-pane label="wikipedia" name="first">
         <article flex-inline>
           <div text-left v-html="htmlStr" />
