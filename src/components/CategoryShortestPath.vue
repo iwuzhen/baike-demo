@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import axios from 'axios'
-import VueMermaidString from 'vue-mermaid-string'
 
 import { useVModel } from '@vueuse/core'
 
@@ -59,7 +58,7 @@ const querySearchAsync = () => {
 
     diagram.value += `\n  style ${response.data.nodes[0].title} fill:red,stroke:black,stroke-width:4px,color:white;`
     diagram.value += `\n  style ${response.data.nodes[response.data.nodes.length - 1].title} fill:red,stroke:black,stroke-width:4px,color:white;`
-    console.log('diagram', diagram)
+    // console.log('diagram', diagram)
   })
 }
 
@@ -84,7 +83,7 @@ watchEffect(() => {
     </el-col>
   </el-row>
   <el-row>
-    <el-col><VueMermaidString v-if="diagram !== ''" :value="diagram" :options="{ maxTextSize: 10000 }" /></el-col>
+    <el-col><VueMermaidString v-if="diagram !== ''" :options="{ maxTextSize: 10000 }" :model-value="diagram" /></el-col>
   </el-row>
 </template>
 

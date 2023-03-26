@@ -8,7 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     CategoryShortestPath: typeof import('./components/CategoryShortestPath.vue')['default']
-    copy: typeof import('./components/TheCategorySearch copy.vue')['default']
     ElAutocomplete: typeof import('element-plus/es')['ElAutocomplete']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCol: typeof import('element-plus/es')['ElCol']
@@ -17,7 +16,6 @@ declare module '@vue/runtime-core' {
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
-    ElTable: typeof import('element-plus/es')['ElTable']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
@@ -31,9 +29,9 @@ declare module '@vue/runtime-core' {
     TheHeader: typeof import('./components/TheHeader.vue')['default']
     TheInput: typeof import('./components/TheInput.vue')['default']
     TheRelation: typeof import('./components/TheRelation.vue')['default']
-    TheRelationship: typeof import('./components/TheRelationship.vue')['default']
     TheSearch: typeof import('./components/TheSearch.vue')['default']
     TheSearchF: typeof import('./components/TheSearchF.vue')['default']
+    VueMermaidString: typeof import('./components/VueMermaidString.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

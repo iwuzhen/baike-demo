@@ -17,6 +17,8 @@ import Unocss from 'unocss/vite'
 import Shiki from 'markdown-it-shiki'
 import VueMacros from 'unplugin-vue-macros/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { cdn } from 'vite-plugin-cdn2'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   resolve: {
@@ -27,7 +29,6 @@ export default defineConfig({
 
   plugins: [
     Preview(),
-
     VueMacros({
       plugins: {
         vue: Vue({
@@ -119,11 +120,6 @@ export default defineConfig({
             src: '/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-          },
-          {
-            src: '/pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
             purpose: 'any maskable',
           },
         ],
@@ -146,6 +142,36 @@ export default defineConfig({
     Inspector({
       toggleButtonVisibility: 'never',
     }),
+    cdn({
+      isProduction: true,
+      modules: [
+        {
+          name: 'mermaid',
+          global: 'mermaid',
+          spare: [
+            // dirty fix
+            'https://cdn.staticfile.org/mermaid/10.0.2/mermaid.esm.min.mjs',
+            // 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js',
+          ],
+        },
+        {
+          name: 'zhconvertor',
+          global: 'zhconvertor',
+          spare: [
+            'https://cdn.jsdelivr.net/npm/zhconvertor@2.2.4/dist/index.min.js',
+          ],
+        },
+        {
+          name: 'axios',
+          global: 'axios',
+          spare: [
+            'https://cdn.staticfile.org/axios/1.3.4/axios.min.js',
+          ],
+        },
+      ],
+      logInfo: 'info',
+    }),
+    visualizer(),
   ],
 
   // https://github.com/vitest-dev/vitest
