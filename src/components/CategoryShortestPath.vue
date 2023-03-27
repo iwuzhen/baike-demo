@@ -16,12 +16,12 @@ const SourceCat = useVModel(props, 'modelValue', emit)
 // })
 
 const zhTarget = {
-  title: '米饭',
+  title: '哲学',
   lang: 'zh',
 }
 
 const enTarget = {
-  title: 'Phoenicia',
+  title: 'Philosophy',
   lang: 'en',
 }
 const TargetCat = ref(zhTarget)
