@@ -7,14 +7,18 @@ const props = defineProps<{
   modelValue: { lang: string; title: string }
 }>()
 const emit = defineEmits(['update:modelValue'])
-
 const data = useVModel(props, 'modelValue', emit)
+
+const title = ref('')
 
 const suggestion = ref<any>([])
 
 const handleSelect = (item: any) => {
-  if (data.value.title)
-    data.value = { lang: item.lang, title: item.title }
+  if (data.value.title) {
+    // data.value = { lang: item.lang, title: item.f_title }
+    data.value.title = item.f_title
+    title.value = item.f_title
+  }
 }
 
 const handleEnter = () => {
@@ -28,7 +32,7 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
     return
 
   axios.post('https://api.nikepai.com:10444/v/2.0/baike_demo/query', {
-    query: data.value.title,
+    query: queryString,
     namespace: 14,
     lang: 'zh',
   }).then((response) => {
@@ -36,12 +40,20 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
     cb(response.data.data)
   })
 }
+
+watch(() => data.value.title, () => {
+  title.value = data.value.title
+})
+
+onMounted(() => {
+  title.value = data.value.title
+})
 </script>
 
 <template>
   <el-autocomplete
     ref="autocompleteRef"
-    v-model="data.title"
+    v-model="title"
     :fetch-suggestions="querySearchAsync"
     clearable
     placeholder="Search"
@@ -68,10 +80,3 @@ const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
     </template>
   </el-autocomplete>
 </template>
-
-<style>
-.el-autocomplete-suggestion li{
-  padding-left: 0 !important;
-  padding-top: 0;
-}
-</style>

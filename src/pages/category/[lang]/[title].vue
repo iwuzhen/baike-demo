@@ -25,12 +25,14 @@ const ConvertTitle = (str: string | undefined) => {
 
 const PageObject = ref<any>({})
 const entityList = ref<any>([])
+const categoryQueryTitle = ref('')
 const pageLoading = ref(false)
 watchEffect(() => {
   postMetapediaCategory(props.title.replaceAll(' ', '_'), props.lang).then((response) => {
     if (response.data.ok === false)
       router.push('/404')
     PageObject.value = response.data.data
+    categoryQueryTitle.value = ConvertTitle(PageObject.value.title)
     entityList.value = PageObject.value.entity
   })
 })
@@ -54,7 +56,7 @@ const pageChange = async (pageNumber: number) => {
       </p>
     </div>
 
-    <CategoryShortestPath v-if="PageObject?.title !== undefined " :model-value="{ lang: props.lang, title: ConvertTitle(PageObject?.title) }" />
+    <CategoryShortestPath v-if="categoryQueryTitle !== '' " :model-value="{ lang: props.lang, title: categoryQueryTitle }" />
 
     <el-row>
       <p>tree view</p>

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
 import type { MermaidConfig } from 'mermaid'
 import mermaid from 'mermaid'
 import { customAlphabet } from 'nanoid'
@@ -10,27 +9,41 @@ const props = defineProps<{
   options: MermaidConfig
 }>()
 
-const emit = defineEmits(['update:modelValue', 'parseError', 'nodeClick'])
+const emit = defineEmits(['update:modelValue'])
 
 const nanoid = customAlphabet('abcdefghijk', 4)
 
 const modelValue = useVModel(props, 'modelValue', emit)
+const svgHtml = ref('')
+const mermaidId = nanoid()
 
-const memaidId = ref(nanoid())
+const update = async () => {
+  // console.log('value update', modelValue.value)
+  // mermaid.run({
+  //   querySelector: `#${mermaidId}`,
+  //   // suppressErrors: true,
+  // })
+  const { svg } = await mermaid.render(mermaidId, modelValue.value)
+  svgHtml.value = svg
+  // mermaid.render(mermaidId, modelValue.value)
+}
 
 onMounted(() => {
   mermaid.initialize({
-    startOnLoad: true,
+    theme: 'default',
+    securityLevel: 'loose',
+    startOnLoad: false,
+    ...props.options,
   })
-  mermaid.run({
-    querySelector: `#${memaidId.value}`,
-  })
+  update()
+})
+
+watch(modelValue, () => {
+  update()
 })
 </script>
 
 <template>
-  <pre :id="memaidId">
-    {{ modelValue }}
-  </pre>
+  <div v-html="svgHtml" />
   <!-- {{ modelValue }} -->
 </template>
