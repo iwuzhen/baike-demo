@@ -18,7 +18,7 @@ import Shiki from 'markdown-it-shiki'
 import VueMacros from 'unplugin-vue-macros/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { cdn } from 'vite-plugin-cdn2'
-import { visualizer } from 'rollup-plugin-visualizer'
+// import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   resolve: {
@@ -171,7 +171,7 @@ export default defineConfig({
       ],
       logInfo: 'info',
     }),
-    visualizer(),
+    // visualizer(),
   ],
 
   // https://github.com/vitest-dev/vitest
