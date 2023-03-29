@@ -28,7 +28,7 @@ jobs:
     - name: Build
       run: |
         npm install pnpm -g
-        pnpm i
+        pnpm i --no-frozen-lockfile
         pnpm build
 
     - name: Minio Deploy
