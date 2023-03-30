@@ -141,7 +141,6 @@ watch(() => props.modelValue.title, () => {
         <el-col><VueMermaidString :options="{ maxTextSize: 50000 }" :model-value="diagram.d2" /></el-col>
       </el-row>
       <el-row v-if="diagram.d3 !== ''" mt-10>
-        Line path
         <el-col><VueMermaidString :options="{ maxTextSize: 50000 }" :model-value="diagram.d3" /></el-col>
       </el-row>
     </el-collapse-item>

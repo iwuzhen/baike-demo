@@ -107,19 +107,14 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
       manifest: {
-        name: 'Vitesse',
-        short_name: 'Vitesse',
+        name: 'metapedia',
+        short_name: 'metapedia',
         theme_color: '#ffffff',
         icons: [
           {
-            src: '/pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/pwa-512x512.png',
+            src: '/metapedia-black.svg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/svg',
             purpose: 'any maskable',
           },
         ],
@@ -146,6 +141,13 @@ export default defineConfig({
       isProduction: true,
       modules: [
         {
+          name: 'Vue',
+          global: 'vue',
+          spare: [
+            'https://cdn.staticfile.org/vue/3.2.47/vue.global.min.js',
+          ],
+        },
+        {
           name: 'mermaid',
           global: 'mermaid',
           spare: [
@@ -169,6 +171,7 @@ export default defineConfig({
           ],
         },
       ],
+      preset: false,
       logInfo: 'info',
     }),
     // visualizer(),
