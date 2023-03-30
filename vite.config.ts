@@ -104,8 +104,23 @@ export default defineConfig({
 
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({
+      workbox: {
+        runtimeCaching: [
+          {
+            // urlPattern: /\/api\//,
+            urlPattern: /^https:\/\/seahz\.iwuzhen\.top:10444\/.*/i,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              fetchOptions: {
+                mode: 'cors', // Enable CORS
+                credentials: 'include', // Send cookies with the request
+              },
+            },
+          },
+        ],
+      },
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'safari-pinned-tab.svg'],
+      includeAssets: ['favicon.svg'],
       manifest: {
         name: 'metapedia',
         short_name: 'metapedia',
