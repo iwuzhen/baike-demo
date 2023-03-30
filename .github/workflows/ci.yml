@@ -50,3 +50,12 @@ jobs:
         target_dir: /
         # Trust SSL certificates with minio --insecure option
         insecure: false
+        
+    - name: Publish to Cloudflare Pages
+      uses: cloudflare/pages-action@v1
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: aaf26fe4d20ebdb6d6a93f6ba73961fd
+        projectName: baike-demo
+        directory: dist
+
