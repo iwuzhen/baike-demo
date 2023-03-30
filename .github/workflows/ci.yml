@@ -37,11 +37,11 @@ jobs:
       uses: hkdobrev/minio-deploy-action@1.1.0
       with:
         # Minio endpoint of object storage host
-        endpoint: secrets.S3_ENDPOINT
+        endpoint: ${{ secrets.S3_ENDPOINT }}
         # Minio access key (username)
-        access_key: secrets.S3_ACCESS_KEY
+        access_key: ${{ secrets.S3_ACCESS_KEY }}
         # Minio secret key (password)
-        secret_key: secrets.S3_SECRET_KEY
+        secret_key: ${{ secrets.S3_SECRET_KEY }}
         # Set the target minio bucket for deployment.
         bucket: metapedia
         # Set an input directory for deployment.
