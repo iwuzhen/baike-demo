@@ -108,7 +108,7 @@ export default defineConfig({
         runtimeCaching: [
           {
             // urlPattern: /\/api\//,
-            urlPattern: /^https:\/\/seahz\.iwuzhen\.top:10444\/.*/i,
+            urlPattern: /\/seahz\//,
             handler: 'StaleWhileRevalidate',
             options: {
               fetchOptions: {
