@@ -141,13 +141,6 @@ export default defineConfig({
       isProduction: true,
       modules: [
         {
-          name: 'Vue',
-          global: 'vue',
-          spare: [
-            'https://cdn.staticfile.org/vue/3.2.47/vue.global.min.js',
-          ],
-        },
-        {
           name: 'mermaid',
           global: 'mermaid',
           spare: [
@@ -156,13 +149,13 @@ export default defineConfig({
             // 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js',
           ],
         },
-        {
-          name: 'zhconvertor',
-          global: 'zhconvertor',
-          spare: [
-            'https://cdn.jsdelivr.net/npm/zhconvertor@2.2.4/dist/index.min.js',
-          ],
-        },
+        // {
+        //   name: 'zhconvertor',
+        //   global: 'zhconvertor',
+        //   spare: [
+        //     'https://cdn.jsdelivr.net/npm/zhconvertor@2.2.4/dist/index.min.js',
+        //   ],
+        // },
         {
           name: 'axios',
           global: 'axios',
