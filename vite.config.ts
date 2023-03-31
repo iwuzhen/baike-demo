@@ -8,7 +8,7 @@ import Layouts from 'vite-plugin-vue-layouts'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Markdown from 'vite-plugin-vue-markdown'
-import { VitePWA } from 'vite-plugin-pwa'
+// import { VitePWA } from 'vite-plugin-pwa'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import Inspect from 'vite-plugin-inspect'
 import Inspector from 'vite-plugin-vue-inspector'
@@ -103,39 +103,52 @@ export default defineConfig({
     }),
 
     // https://github.com/antfu/vite-plugin-pwa
-    VitePWA({
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-        runtimeCaching: [
-          {
-            // urlPattern: /\/api\//,
-            urlPattern: /seahz/,
-            handler: 'StaleWhileRevalidate',
-            options: {
-              fetchOptions: {
-                mode: 'cors', // Enable CORS
-                credentials: 'include', // Send cookies with the request
-              },
-            },
-          },
-        ],
-      },
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
-      manifest: {
-        name: 'metapedia',
-        short_name: 'metapedia',
-        theme_color: '#ffffff',
-        icons: [
-          {
-            src: '/metapedia-black.svg',
-            sizes: '512x512',
-            type: 'image/svg',
-            purpose: 'any maskable',
-          },
-        ],
-      },
-    }),
+    // VitePWA({
+    //   workbox: {
+    //     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+    //     runtimeCaching: [
+    //       {
+    //         // urlPattern: /\/api\//,
+    //         urlPattern: /seahz/,
+    //         handler: 'StaleWhileRevalidate',
+    //         options: {
+    //           fetchOptions: {
+    //             mode: 'cors', // Enable CORS
+    //             credentials: 'include', // Send cookies with the request
+    //           },
+    //           plugins: [
+    //             {
+    //               // 使用 copyResponse 插件，将跨域请求的响应复制到目标响应中
+    //               async cacheWillUpdate({ response }) {
+    //                 const res = await copyResponse({
+    //                   response,
+    //                   // 设置 fetch() 方法的 mode 为 'cors'，允许跨域请求
+    //                   fetchOptions: { mode: 'cors' },
+    //                 })
+    //                 return res || response
+    //               },
+    //             },
+    //           ],
+    //         },
+    //       },
+    //     ],
+    //   },
+    //   registerType: 'autoUpdate',
+    //   includeAssets: ['favicon.svg'],
+    //   manifest: {
+    //     name: 'metapedia',
+    //     short_name: 'metapedia',
+    //     theme_color: '#ffffff',
+    //     icons: [
+    //       {
+    //         src: '/metapedia-black.svg',
+    //         sizes: '512x512',
+    //         type: 'image/svg',
+    //         purpose: 'any maskable',
+    //       },
+    //     ],
+    //   },
+    // }),
 
     // https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n
     VueI18n({
