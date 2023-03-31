@@ -13,8 +13,7 @@
     "test:e2e": "cypress open",
     "test:unit": "vitest",
     "typecheck": "vue-tsc --noEmit",
-    "up": "taze major -I",
-    "report": "rimraf dist && cross-env vite build"
+    "up": "taze major -I"
   },
   "dependencies": {
     "@unocss/reset": "^0.48.5",
