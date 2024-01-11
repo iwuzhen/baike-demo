@@ -169,15 +169,15 @@ export default defineConfig({
     cdn({
       isProduction: true,
       modules: [
-        {
-          name: 'mermaid',
-          global: 'mermaid',
-          spare: [
-            // dirty fix
-            'https://cdn.staticfile.org/mermaid/10.0.2/mermaid.esm.min.mjs',
-            // 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js',
-          ],
-        },
+        // {
+        //   name: 'mermaid',
+        //   global: 'mermaid',
+        //   spare: [
+        //     // dirty fix
+        //     'https://cdn.staticfile.org/mermaid/10.0.2/mermaid.esm.min.mjs',
+        //     // 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js',
+        //   ],
+        // },
         // {
         //   name: 'zhconvertor',
         //   global: 'zhconvertor',
