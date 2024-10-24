@@ -6,7 +6,7 @@ const props = defineProps<{ name: string; lang: string }>()
 const user = useUserStore()
 const router = useRouter()
 
-const activeName = ref('first')
+const activeName = ref('second')
 const activeNames = ref(['1', '2', '3'])
 
 const docItem = ref<SearchResultModule>()
